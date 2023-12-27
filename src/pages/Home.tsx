@@ -61,7 +61,7 @@ const Home = () => {
                 <div key={index} className="relative">
                   <div className="rounded overflow-hidden">
                     <img
-                      src={anime?.images?.webp?.large_image_url}
+                      src={anime?.images?.jpg?.large_image_url}
                       alt="Anime Thumbnail"
                       className="w-full object-contain hover:scale-125 transition-all ease duration-300"
                     />
