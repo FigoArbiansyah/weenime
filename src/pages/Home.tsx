@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import ListAnimeLoading from "../components/loadings/ListAnimeLoading";
 
 const { VITE_BASE_URL } = import.meta.env;
 
 const Home = () => {
   const [animeList, setAnimeList] = useState<any[]>([]);
+  const [metadata, setMetadata] = useState<any>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<unknown>();
   const [page, setPage] = useState<number>(1);
@@ -17,6 +17,7 @@ const Home = () => {
       const list = await response.json();
       if (response?.status == 200) {
         setAnimeList(list?.data);
+        setMetadata(list?.pagination);
       } else if (response?.status == 429) {
         throw Error();
       }
@@ -54,7 +55,7 @@ const Home = () => {
         {loading ? (
           <ListAnimeLoading />
         ) : (
-          <section className="grid md:grid-cols-5 grid-cols-2 gap-4">
+          <section className="grid md:grid-cols-5 grid-cols-1 gap-4">
             {animeList?.map((anime, index) => {
               return (
                 <div key={index} className="relative">
@@ -67,7 +68,7 @@ const Home = () => {
                   </div>
                   <div className="w-full p-2 absolute left-0 bottom-0 bg-gradient-to-b from-transparent to-black">
                     <p className="text-primary-dark">{anime?.title_japanese}</p>
-                    <h3 className="text-lg font-semibold text-primary-dark">
+                    <h3 className="text-lg font-semibold text-primary-dark hover:underline">
                       <a href={anime?.url} target="_blank">
                         {anime?.title}
                       </a>
@@ -86,20 +87,24 @@ const Home = () => {
         )}
         <section className="pt-6 flex justify-center items-center">
           <div className="mx-auto flex gap-1">
-            <Link
-              onClick={() => setPage((prev) => prev - 1)}
-              to={`?page=${page - 1}`}
-              className="inline-block py-2 px-5 rounded bg-rose-500 text-white hover:text-rose-500 border border-rose-500 hover:bg-transparent transition-all ease duration-300"
-            >
-              Prev
-            </Link>
-            <Link
-              onClick={() => setPage((prev) => prev + 1)}
-              to={`?page=${page + 1}`}
-              className="inline-block py-2 px-5 rounded bg-rose-500 text-white hover:text-rose-500 border border-rose-500 hover:bg-transparent transition-all ease duration-300"
-            >
-              Next
-            </Link>
+            {page != 1 && (
+              <button
+                onClick={() => setPage((prev) => prev - 1)}
+                // to={`?page=${page - 1}`}
+                className="inline-block py-2 px-5 rounded bg-rose-500 text-white hover:text-rose-500 border border-rose-500 hover:bg-transparent transition-all ease duration-300"
+              >
+                Prev
+              </button>
+            )}
+            {page != metadata?.last_visible_page && (
+              <button
+                onClick={() => setPage((prev) => prev + 1)}
+                // to={`?page=${page + 1}`}
+                className="inline-block py-2 px-5 rounded bg-rose-500 text-white hover:text-rose-500 border border-rose-500 hover:bg-transparent transition-all ease duration-300"
+              >
+                Next
+              </button>
+            )}
           </div>
         </section>
       </main>
