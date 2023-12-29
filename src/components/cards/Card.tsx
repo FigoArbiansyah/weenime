@@ -15,8 +15,10 @@ const Card: React.FC<CardProps> = ({ item }) => {
         />
       </div>
       <div className="w-full p-2 absolute left-0 bottom-0 bg-gradient-to-b from-transparent to-black">
-        <p className="text-primary-dark">{item?.title_japanese}</p>
-        <h3 className="text-lg font-semibold text-primary-dark hover:underline">
+        <p className="text-primary-dark max-md:text-sm">
+          {item?.title_japanese}
+        </p>
+        <h3 className="md:text-lg font-semibold text-primary-dark hover:underline">
           <a href={item?.url} target="_blank">
             {item?.title}
           </a>
