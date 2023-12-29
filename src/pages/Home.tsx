@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
+// Components
 import ListAnimeLoading from "../components/loadings/ListAnimeLoading";
 import ManyRequest from "../components/errors/ManyRequest";
 import Card from "../components/cards/Card";
 import Button from "../components/Button";
+import Footer from "../components/Footer";
+// Helpers
 import {
   getItem as getStorageItem,
   setItem as setStorageItem,
 } from "../helpers/localStorage";
-import Footer from "../components/Footer";
 
 const { VITE_BASE_URL } = import.meta.env;
 const CURRENT_PAGE = getStorageItem("page") || 1;
